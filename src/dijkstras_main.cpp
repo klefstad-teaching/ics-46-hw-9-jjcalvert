@@ -8,13 +8,19 @@
 
 
 int main(){
-    set<string> word_list;
-    cout << "testing load " << endl;
-    load_words(word_list, "words.txt");
+    Graph G;
+    string filename = "small.txt";
+    file_to_graph(filename, G);
 
-    vector<string> test_ladder =  {"cat", "cot", "dot", "dog"};
-    print_word_ladder(test_ladder);
+    int source = 0;
+    vector<int> previous(G.numVertices);
+    vector<int> distances = dijkstra_shortest_path(G, source, previous);
 
-    // verify_word_ladder();
+    for(int i = 0; i < 4; i++){
+        vector<int> path = extract_shortest_path(distances, previous, i);
+        int total_distance = distances[i];
+        print_path(path, total_distance);
+    }
+    
     return 0;
 }
